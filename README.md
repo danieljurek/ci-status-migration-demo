@@ -14,9 +14,12 @@ The files starting with `~demo-` are examples. Delete the two sample check workf
 
 ## Demonstrations
 
-The two pull requests linked below set `demo/results.json` to different outcomes. They are intentionally left open so their Checks tabs and `migration-consistency/demo` statuses remain visible.
+The two pull requests are intentionally left open so their Checks tabs and `migration-consistency/demo` statuses remain visible.
 
-<!-- PR links are added after the live workflow runs are verified. -->
+| Pull request | Legacy check | New workflow | Consistency status |
+| --- | --- | --- | --- |
+| [Agreement: both succeed](https://github.com/danieljurek/ci-status-migration-demo/pull/1) | success | success | success |
+| [Disagreement: new check fails](https://github.com/danieljurek/ci-status-migration-demo/pull/2) | success | failure | failure |
 
 ## How the watcher works
 
