@@ -1,0 +1,17 @@
+name: "~demo-legacy-check"
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  legacy-check:
+    name: legacy-check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run the legacy check
+        run: |
+          node -e 'const result = require("./demo/results.json").legacy; console.log(`Legacy: ${result}`); process.exit(result === "success" ? 0 : 1)'

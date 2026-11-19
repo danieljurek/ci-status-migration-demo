@@ -1,0 +1,17 @@
+name: "~demo-new-check"
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  new-check:
+    name: new-check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run the new check
+        run: |
+          node -e 'const result = require("./demo/results.json").new; console.log(`New: ${result}`); process.exit(result === "success" ? 0 : 1)'

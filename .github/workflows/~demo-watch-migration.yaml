@@ -1,0 +1,23 @@
+name: "~demo-watch-migration"
+
+# This caller is the only file that needs check names changed when onboarding a
+# real migration. These workflow names refer to the two sample checks below.
+on:
+  workflow_run:
+    workflows:
+      - "~demo-legacy-check"
+      - "~demo-new-check"
+    types: [completed]
+
+permissions:
+  actions: read
+  checks: read
+  contents: read
+  statuses: write
+
+jobs:
+  compare:
+    uses: ./.github/workflows/reusable-verify-run-status.yaml
+    with:
+      legacy_check_name: "legacy-check"
+      new_workflow_name: "~demo-new-check"
