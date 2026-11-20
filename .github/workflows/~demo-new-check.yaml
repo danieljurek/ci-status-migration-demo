@@ -12,6 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Keep the new check pending for watcher verification
+        run: sleep 90
       - name: Run the new check
         run: |
           node -e 'const result = require("./demo/results.json").new; console.log(`New: ${result}`); process.exit(result === "success" ? 0 : 1)'
