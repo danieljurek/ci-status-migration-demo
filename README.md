@@ -4,6 +4,8 @@ This repository demonstrates the watcher used while moving a CI check from one i
 
 The comparison follows the [Azure REST API Specs watcher at `e4165be`](https://github.com/Azure/azure-rest-api-specs/blob/e4165be7a953958691125d9c2ec766ac955a9d87/.github/workflows/src/verify-run-status.js) and its [early LintDiff onboarding](https://github.com/Azure/azure-rest-api-specs/blob/49be66f61538/.github/workflows/watch-lintdiff.yaml). In Azure, a completed external check suite or the new workflow could start the watcher. Here both sample checks are GitHub Actions workflows, so a completed `workflow_run` for either one starts it. This avoids relying on `check_run` events from Actions jobs and makes the demo finish even when the new check completes first.
 
+The demo adds a PR commit status to make the comparison visible on the example pull requests. The original watcher reported through its own workflow job and did not create that status.
+
 ## Files to copy
 
 1. [Reusable workflow](.github/workflows/reusable-verify-run-status.yaml)
