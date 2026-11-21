@@ -27,7 +27,7 @@ The closed [pending-result verification PR](https://github.com/danieljurek/ci-st
 
 ## How the watcher works
 
-The legacy sample workflow creates a check run named `legacy-check`. The new sample workflow is named `~demo-new-check`. The watcher listens for either workflow to complete, then looks for both completed results at that commit. If one is not complete, it logs a notice and ends successfully without publishing a comparison status. The other completion event starts another watcher run. When both results exist, the watcher compares `conclusion` values exactly and publishes the result to the PR head commit.
+The legacy sample workflow creates a check run named `Legacy check`. The new sample workflow and its check are named `[TEST-IGNORE] New check`. The watcher listens for either workflow to complete, then looks for both completed results at that commit. If one is not complete, it logs a notice and ends successfully without publishing a comparison status. The other completion event starts another watcher run. When both results exist, the watcher compares `conclusion` values exactly and publishes the result to the PR head commit.
 
 The watcher executes code from the default branch under `workflow_run`, which has a write token for publishing the PR status. It does not check out code from the pull request. The sample checks themselves use read-only tokens.
 

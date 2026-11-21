@@ -24,7 +24,7 @@ function fixture(legacyConclusion, newConclusion, options = {}) {
       if (method === "checks") {
         if (options.missingLegacy) return [];
         return [{
-          name: "legacy-check",
+          name: "Legacy check",
           head_sha: SHA,
           status: "completed",
           conclusion: legacyConclusion,
@@ -34,7 +34,7 @@ function fixture(legacyConclusion, newConclusion, options = {}) {
       }
       if (options.missingNew) return [];
       return [{
-        name: "~demo-new-check",
+        name: "[TEST-IGNORE] New check",
         head_sha: SHA,
         status: "completed",
         conclusion: newConclusion,
@@ -49,7 +49,7 @@ function fixture(legacyConclusion, newConclusion, options = {}) {
       action: "completed",
       workflow_run: {
         event: "pull_request",
-        name: options.triggerWorkflowName ?? "~demo-new-check",
+        name: options.triggerWorkflowName ?? "[TEST-IGNORE] New check",
         head_sha: SHA,
         conclusion: newConclusion,
         html_url: "https://example.test/new",
@@ -74,8 +74,8 @@ test("matching conclusions publish a successful PR status", async () => {
     github: f.github,
     context: f.context,
     core: f.core,
-    legacyCheckName: "legacy-check",
-    newWorkflowName: "~demo-new-check",
+    legacyCheckName: "Legacy check",
+    newWorkflowName: "[TEST-IGNORE] New check",
   });
   assert.equal(agrees, true);
   assert.equal(f.statuses[0].sha, PR_SHA);
@@ -89,8 +89,8 @@ test("different conclusions publish a failed PR status", async () => {
     github: f.github,
     context: f.context,
     core: f.core,
-    legacyCheckName: "legacy-check",
-    newWorkflowName: "~demo-new-check",
+    legacyCheckName: "Legacy check",
+    newWorkflowName: "[TEST-IGNORE] New check",
   });
   assert.equal(agrees, false);
   assert.equal(f.statuses[0].state, "failure");
@@ -103,8 +103,8 @@ test("a pending legacy check ends successfully without a comparison status", asy
     github: f.github,
     context: f.context,
     core: f.core,
-    legacyCheckName: "legacy-check",
-    newWorkflowName: "~demo-new-check",
+    legacyCheckName: "Legacy check",
+    newWorkflowName: "[TEST-IGNORE] New check",
   });
   assert.equal(result, undefined);
   assert.equal(f.statuses.length, 0);
@@ -114,15 +114,15 @@ test("a pending legacy check ends successfully without a comparison status", asy
 
 test("a pending new workflow ends successfully without a comparison status", async () => {
   const f = fixture("success", "success", {
-    triggerWorkflowName: "~demo-legacy-check",
+    triggerWorkflowName: "Legacy check",
     missingNew: true,
   });
   const result = await verifyRunStatus({
     github: f.github,
     context: f.context,
     core: f.core,
-    legacyCheckName: "legacy-check",
-    newWorkflowName: "~demo-new-check",
+    legacyCheckName: "Legacy check",
+    newWorkflowName: "[TEST-IGNORE] New check",
   });
   assert.equal(result, undefined);
   assert.equal(f.statuses.length, 0);
@@ -131,13 +131,13 @@ test("a pending new workflow ends successfully without a comparison status", asy
 });
 
 test("a legacy workflow event fetches the completed new workflow", async () => {
-  const f = fixture("success", "failure", { triggerWorkflowName: "~demo-legacy-check" });
+  const f = fixture("success", "failure", { triggerWorkflowName: "Legacy check" });
   const result = await verifyRunStatus({
     github: f.github,
     context: f.context,
     core: f.core,
-    legacyCheckName: "legacy-check",
-    newWorkflowName: "~demo-new-check",
+    legacyCheckName: "Legacy check",
+    newWorkflowName: "[TEST-IGNORE] New check",
   });
   assert.equal(result, false);
   assert.equal(f.statuses[0].state, "failure");
