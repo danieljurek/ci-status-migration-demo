@@ -23,6 +23,8 @@ The two pull requests are intentionally left open so their Checks tabs and `migr
 | [Agreement: both succeed](https://github.com/danieljurek/ci-status-migration-demo/pull/1) | success | success | success |
 | [Disagreement: new check fails](https://github.com/danieljurek/ci-status-migration-demo/pull/2) | success | failure | failure |
 
+With the two-minute legacy delay, the [first watcher on PR #1](https://github.com/danieljurek/ci-status-migration-demo/actions/runs/44935649704) and [first watcher on PR #2](https://github.com/danieljurek/ci-status-migration-demo/actions/runs/44935670071) logged that no legacy result had completed and posted no comparison status. After legacy finished, the [final watcher on PR #1](https://github.com/danieljurek/ci-status-migration-demo/actions/runs/44935819924) posted success and the [final watcher on PR #2](https://github.com/danieljurek/ci-status-migration-demo/actions/runs/44935834720) posted failure.
+
 The closed [pending-result verification PR](https://github.com/danieljurek/ci-status-migration-demo/pull/3) delayed the new check. Its [first watcher run](https://github.com/danieljurek/ci-status-migration-demo/actions/runs/44835319449) ended successfully with a notice and no comparison status while that check was running. Its [second watcher run](https://github.com/danieljurek/ci-status-migration-demo/actions/runs/44835515207) posted success after both checks completed.
 
 ## How the watcher works
@@ -33,4 +35,4 @@ The `workflow_run.workflows` entry escapes the brackets in `[TEST-IGNORE]` for G
 
 The watcher executes code from the default branch under `workflow_run`, which has a write token for publishing the PR status. It does not check out code from the pull request. The sample checks themselves use read-only tokens.
 
-Run the local tests with `node --test`.
+Use `nvm use` to select Node 24 locally, then run the tests with `npm test`. The `~demo-unit-tests` workflow runs the same tests on Node 24 for pushes to `main` and for pull requests. The sample checks also select Node 24 explicitly; the checkout and github-script actions are pinned to Node 24 releases.
