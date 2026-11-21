@@ -10,9 +10,9 @@ The demo adds a PR commit status to make the comparison visible on the example p
 
 1. [Reusable workflow](.github/workflows/reusable-verify-run-status.yaml)
 2. [Single-file comparison logic](.github/workflows/verify-run-status.js)
-3. [Caller workflow](.github/workflows/~demo-watch-migration.yaml) — rename it and set the two workflow names and check run name for your migration.
+3. [Caller workflow](.github/workflows/~demo-watch-new-check.yaml) — rename it and set the two workflow names and check run name for your migration.
 
-The files starting with `~demo-` are examples. Delete the two sample check workflows and `demo/results.json` when adapting the watcher to real checks. The caller is also named `~demo-` so its sample names are easy to spot before copying it.
+The files starting with `~demo-` are examples. Delete the two sample check workflows and `demo/results.json` when adapting the watcher to real checks. The caller file also starts with `~demo-` so its sample names are easy to spot before copying it; its workflow is named `~Watch-new-check`.
 
 ## Demonstrations
 
