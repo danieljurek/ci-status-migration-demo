@@ -1,0 +1,11 @@
+{
+  "name": "ci-status-migration-demo",
+  "private": true,
+  "version": "0.1.0",
+  "engines": {
+    "node": "24.x"
+  },
+  "scripts": {
+    "test": "node --test"
+  }
+}

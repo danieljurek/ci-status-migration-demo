@@ -27,7 +27,7 @@ jobs:
     steps:
       # workflow_run has a write token. Load the comparison code from the trusted
       # default branch, never from the pull request being evaluated.
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ github.event.repository.default_branch }}
           persist-credentials: false
@@ -35,7 +35,7 @@ jobs:
           sparse-checkout-cone-mode: false
 
       - name: Compare and report on the pull request
-        uses: actions/github-script@v7
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         env:
           LEGACY_CHECK_NAME: ${{ inputs.legacy_check_name }}
           NEW_WORKFLOW_NAME: ${{ inputs.new_workflow_name }}

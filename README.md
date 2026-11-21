@@ -35,4 +35,4 @@ The `workflow_run.workflows` entry escapes the brackets in `[TEST-IGNORE]` for G
 
 The watcher executes code from the default branch under `workflow_run`, which has a write token for publishing the PR status. It does not check out code from the pull request. The sample checks themselves use read-only tokens.
 
-Run the local tests with `node --test`.
+Use `nvm use` to select Node 24 locally, then run the tests with `npm test`. The `~demo-unit-tests` workflow runs the same tests on Node 24 for pushes to `main` and for pull requests. The sample checks also select Node 24 explicitly; the checkout and github-script actions are pinned to Node 24 releases.
