@@ -23,6 +23,8 @@ The two pull requests are intentionally left open so their Checks tabs and `migr
 | [Agreement: both succeed](https://github.com/danieljurek/ci-status-migration-demo/pull/1) | success | success | success |
 | [Disagreement: new check fails](https://github.com/danieljurek/ci-status-migration-demo/pull/2) | success | failure | failure |
 
+With the two-minute legacy delay, the [first watcher on PR #1](https://github.com/danieljurek/ci-status-migration-demo/actions/runs/44935649704) and [first watcher on PR #2](https://github.com/danieljurek/ci-status-migration-demo/actions/runs/44935670071) logged that no legacy result had completed and posted no comparison status. After legacy finished, the [final watcher on PR #1](https://github.com/danieljurek/ci-status-migration-demo/actions/runs/44935819924) posted success and the [final watcher on PR #2](https://github.com/danieljurek/ci-status-migration-demo/actions/runs/44935834720) posted failure.
+
 The closed [pending-result verification PR](https://github.com/danieljurek/ci-status-migration-demo/pull/3) delayed the new check. Its [first watcher run](https://github.com/danieljurek/ci-status-migration-demo/actions/runs/44835319449) ended successfully with a notice and no comparison status while that check was running. Its [second watcher run](https://github.com/danieljurek/ci-status-migration-demo/actions/runs/44835515207) posted success after both checks completed.
 
 ## How the watcher works
