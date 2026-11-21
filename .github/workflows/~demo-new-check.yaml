@@ -1,4 +1,4 @@
-name: "~demo-new-check"
+name: "[TEST-IGNORE] New check"
 
 on:
   pull_request:
@@ -8,7 +8,7 @@ permissions:
 
 jobs:
   new-check:
-    name: new-check
+    name: "[TEST-IGNORE] New check"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

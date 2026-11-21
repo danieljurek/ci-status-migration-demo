@@ -1,4 +1,4 @@
-name: "~demo-legacy-check"
+name: "Legacy check"
 
 on:
   pull_request:
@@ -8,7 +8,7 @@ permissions:
 
 jobs:
   legacy-check:
-    name: legacy-check
+    name: Legacy check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
