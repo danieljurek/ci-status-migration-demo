@@ -6,7 +6,7 @@ on:
   workflow_run:
     workflows:
       - "Legacy check"
-      - "[TEST-IGNORE] New check"
+      - "\\[TEST-IGNORE\\] New check"
     types: [completed]
 
 permissions:
