@@ -3,8 +3,6 @@
 // This file keeps its lookup and comparison logic together so the demo can be copied.
 
 const PER_PAGE_MAX = 100;
-const WAIT_MS = 10_000;
-const MAX_ATTEMPTS = 36;
 
 function latestByDate(items, field) {
   return [...items].sort(
@@ -39,28 +37,11 @@ async function getNewWorkflow(github, repo, name, sha) {
   );
 }
 
-async function waitForBoth(github, repo, legacyCheckName, newWorkflowName, sha, options = {}) {
-  const attempts = options.attempts ?? MAX_ATTEMPTS;
-  const wait = options.wait ?? ((ms) => new Promise((resolve) => setTimeout(resolve, ms)));
-
-  for (let attempt = 1; attempt <= attempts; attempt++) {
-    const [legacy, modern] = await Promise.all([
-      getLegacyCheck(github, repo, legacyCheckName, sha),
-      getNewWorkflow(github, repo, newWorkflowName, sha),
-    ]);
-    if (legacy && modern) return { legacy, modern };
-    if (attempt < attempts) await wait(WAIT_MS);
-  }
-  throw new Error(
-    `Timed out waiting for completed results: ${legacyCheckName} and ${newWorkflowName} at ${sha}`,
-  );
-}
-
 function compareConclusions(legacy, modern) {
   return legacy.conclusion === modern.conclusion;
 }
 
-async function verifyRunStatus({ github, context, core, legacyCheckName, newWorkflowName }, options) {
+async function verifyRunStatus({ github, context, core, legacyCheckName, newWorkflowName }) {
   if (context.eventName !== "workflow_run" || context.payload.action !== "completed") {
     throw new Error("Expected a completed workflow_run event");
   }
@@ -70,14 +51,24 @@ async function verifyRunStatus({ github, context, core, legacyCheckName, newWork
 
   const repo = context.repo;
   const sha = context.payload.workflow_run.head_sha;
-  const { legacy, modern } = await waitForBoth(
-    github,
-    repo,
-    legacyCheckName,
-    newWorkflowName,
-    sha,
-    options,
-  );
+  const legacy = await getLegacyCheck(github, repo, legacyCheckName, sha);
+  if (!legacy) {
+    core.notice(
+      `No completed check run with name: ${legacyCheckName}. Not enough information to judge success or failure. Ending with success status.`,
+    );
+    return;
+  }
+
+  const modern = context.payload.workflow_run.name === newWorkflowName
+    ? context.payload.workflow_run
+    : await getNewWorkflow(github, repo, newWorkflowName, sha);
+  if (!modern) {
+    core.notice(
+      `No completed workflow run with name: ${newWorkflowName}. Not enough information to judge success or failure. Ending with success status.`,
+    );
+    return;
+  }
+
   const agrees = compareConclusions(legacy, modern);
   const description = `Legacy: ${legacy.conclusion}; new: ${modern.conclusion}`;
   const sourcePr = context.payload.workflow_run.pull_requests?.[0];
@@ -107,5 +98,4 @@ module.exports = {
   getLegacyCheck,
   getNewWorkflow,
   verifyRunStatus,
-  waitForBoth,
 };

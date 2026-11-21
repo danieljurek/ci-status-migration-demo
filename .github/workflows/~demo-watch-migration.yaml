@@ -5,8 +5,8 @@ name: "~demo-watch-migration"
 on:
   workflow_run:
     workflows:
-      - "~demo-legacy-check"
-      - "~demo-new-check"
+      - "Legacy check"
+      - "[TEST-IGNORE] New check"
     types: [completed]
 
 permissions:
@@ -19,5 +19,5 @@ jobs:
   compare:
     uses: ./.github/workflows/reusable-verify-run-status.yaml
     with:
-      legacy_check_name: "legacy-check"
-      new_workflow_name: "~demo-new-check"
+      legacy_check_name: "Legacy check"
+      new_workflow_name: "[TEST-IGNORE] New check"
