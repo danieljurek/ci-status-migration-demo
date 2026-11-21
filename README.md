@@ -29,6 +29,8 @@ The closed [pending-result verification PR](https://github.com/danieljurek/ci-st
 
 The legacy sample workflow creates a check run named `Legacy check`. The new sample workflow and its check are named `[TEST-IGNORE] New check`. The watcher listens for either workflow to complete, then looks for both completed results at that commit. If one is not complete, it logs a notice and ends successfully without publishing a comparison status. The other completion event starts another watcher run. When both results exist, the watcher compares `conclusion` values exactly and publishes the result to the PR head commit.
 
+The `workflow_run.workflows` entry escapes the brackets in `[TEST-IGNORE]` for GitHub's trigger parser. The reusable workflow input uses the ordinary, unescaped name returned by the GitHub API.
+
 The watcher executes code from the default branch under `workflow_run`, which has a write token for publishing the PR status. It does not check out code from the pull request. The sample checks themselves use read-only tokens.
 
 Run the local tests with `node --test`.
