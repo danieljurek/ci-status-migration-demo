@@ -23,6 +23,8 @@ The two pull requests are intentionally left open so their Checks tabs and `migr
 | [Agreement: both succeed](https://github.com/danieljurek/ci-status-migration-demo/pull/1) | success | success | success |
 | [Disagreement: new check fails](https://github.com/danieljurek/ci-status-migration-demo/pull/2) | success | failure | failure |
 
+The closed [pending-result verification PR](https://github.com/danieljurek/ci-status-migration-demo/pull/3) delayed the new check. Its [first watcher run](https://github.com/danieljurek/ci-status-migration-demo/actions/runs/44835319449) ended successfully with a notice and no comparison status while that check was running. Its [second watcher run](https://github.com/danieljurek/ci-status-migration-demo/actions/runs/44835515207) posted success after both checks completed.
+
 ## How the watcher works
 
 The legacy sample workflow creates a check run named `legacy-check`. The new sample workflow is named `~demo-new-check`. The watcher listens for either workflow to complete, then looks for both completed results at that commit. If one is not complete, it logs a notice and ends successfully without publishing a comparison status. The other completion event starts another watcher run. When both results exist, the watcher compares `conclusion` values exactly and publishes the result to the PR head commit.
