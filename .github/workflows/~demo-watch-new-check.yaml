@@ -1,4 +1,4 @@
-name: "~demo-watch-migration"
+name: "~Watch-new-check"
 
 # This caller is the only file that needs check names changed when onboarding a
 # real migration. These workflow names refer to the two sample checks below.
